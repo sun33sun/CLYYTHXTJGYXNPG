@@ -11,8 +11,7 @@ namespace ProjectBase
 {
     public static class MainHelper
     {
-        public static float HideTime = 0.5f;
-        public static float ShowTime = 0.5f;
+        public static float AnimTime = 0.5f;
 
         #region 3D物体扩展
         public static async UniTask HightlightClickAsync(this GameObject obj, CancellationToken cancellationToken)

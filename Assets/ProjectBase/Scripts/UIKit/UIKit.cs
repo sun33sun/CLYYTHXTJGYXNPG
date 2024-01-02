@@ -4,39 +4,61 @@ namespace ProjectBase.UI
 {
 	public static class UIKit
 	{
-		public static void Init()
-		{
-			UIMgr instance = UIMgr.Instance;
-		}
-
 		#region 创建
 		public static T Open<T>() where T : UIController
 		{
 			return UIMgr.Instance.Open<T>();
 		}
 
-		public static async UniTask<T> OpenAsync<T>() where T : UIController
+		public static async UniTask<T> OpenAwait<T>() where T : UIController
 		{
-			T t = await UIMgr.Instance.OpenAsync<T>();
+			T t = await UIMgr.Instance.OpenAwait<T>();
 			return t;
+		}
+
+		public static void OpenAsync<T>()where T : UIController
+		{
+			UniTask.Void(UIMgr.Instance.OpenAsync<T>);
+		}
+
+		public static void UnRecordOpen<T>(int sortingOrder) where T : UIController 
+		{
+			UIMgr.Instance.UnRecordOpen<T>(sortingOrder);
 		}
 		#endregion
 
 		#region 关闭
-		public static void Close()
+		public static void CloseLast()
 		{
-			UIMgr.Instance.Close();
+			UIMgr.Instance.CloseLast();
 		}
 
-		public static async UniTask CloseAsync()
+		public static void CloseLastAsync()
 		{
-			await UIMgr.Instance.CloseAsync();	
+			UniTask.Void(UIMgr.Instance.CloseAllAsync);
+		}
+
+		public static async UniTask CloseLastAwait()
+		{
+			await UIMgr.Instance.CloseLastAwait();
 		}
 
 		public static void CloseAll()
 		{
 			UIMgr.Instance.CloseAll();
 		}
+
+		public static void CloseAllAsync()
+		{
+			UniTask.Void(UIMgr.Instance.CloseAllAsync);
+		}
+
+		public static async UniTask CloseAllAwait()
+		{
+			await UIMgr.Instance.CloseAllAwait();
+		}
+
+
 		#endregion
 
 		/// <summary>

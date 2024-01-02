@@ -4,10 +4,11 @@
 
 	public partial class BottomPanel
 	{
-		[HideInInspector] public UnityEngine.UI.Button btnHelp = null;
-		[HideInInspector] public ProjectBase.PointerEventTrigger btnScreen = null;
-		[HideInInspector] public UnityEngine.UI.Button btnMain = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnHelp = null;
+		[HideInInspector, SerializeField] public ProjectBase.PointerEventTrigger btnScreen = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnMain = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Image imgBk = null;
 	
-		public new BottomPanelData mData => DataMgr.Get<BottomPanelData>();
+		public BottomPanelData mData => UIDataMgr.Get<BottomPanelData>();
 	}
 }

@@ -8,15 +8,15 @@ namespace ProjectBase
 {
 	public class PointerEventTrigger : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerClickHandler, IPointerUpHandler, IPointerExitHandler
 	{
-		public readonly EventInfo<PointerEventData> OnPointerEnterEvent = new EventInfo<PointerEventData>();
+		public readonly EventInfo<PointerEventData> mOnPointerEnterEvent = new EventInfo<PointerEventData>();
 
-		public readonly EventInfo<PointerEventData> OnPointerDownEvent = new EventInfo<PointerEventData>();
+		public readonly EventInfo<PointerEventData> mOnPointerDownEvent = new EventInfo<PointerEventData>();
 
-		public readonly EventInfo<PointerEventData> OnPointerClickEvent = new EventInfo<PointerEventData>();
+		public readonly EventInfo<PointerEventData> mOnPointerClickEvent = new EventInfo<PointerEventData>();
 
-		public readonly EventInfo<PointerEventData> OnPointerUpEvent = new EventInfo<PointerEventData>();
+		public readonly EventInfo<PointerEventData> mOnPointerUpEvent = new EventInfo<PointerEventData>();
 
-		public readonly EventInfo<PointerEventData> OnPointerExitEvent = new EventInfo<PointerEventData>();
+		public readonly EventInfo<PointerEventData> mOnPointerExitEvent = new EventInfo<PointerEventData>();
 
 		/// <summary>
 		/// 触发鼠标进入
@@ -24,7 +24,7 @@ namespace ProjectBase
 		/// <param name="eventData"></param>
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			OnPointerEnterEvent.Trigger(eventData);
+			mOnPointerEnterEvent.Trigger(eventData);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace ProjectBase
 		/// <param name="eventData"></param>
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			OnPointerDownEvent.Trigger(eventData);
+			mOnPointerDownEvent.Trigger(eventData);
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace ProjectBase
 		/// <param name="eventData"></param>
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			OnPointerClickEvent.Trigger(eventData);
+			mOnPointerClickEvent.Trigger(eventData);
 		}
 
 		/// <summary>
@@ -51,7 +51,7 @@ namespace ProjectBase
 		/// <param name="eventData"></param>
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			OnPointerUpEvent.Trigger(eventData);
+			mOnPointerUpEvent.Trigger(eventData);
 		}
 
 		/// <summary>
@@ -60,35 +60,60 @@ namespace ProjectBase
 		/// <param name="eventData"></param>
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			OnPointerExitEvent.Trigger(eventData);
+			mOnPointerExitEvent.Trigger(eventData);
+		}
+
+		public IUnRegister RegisterEnterEvent(Action<PointerEventData> onPointerEvent)
+		{
+			return mOnPointerClickEvent.Register(onPointerEvent);
+		}
+
+		public IUnRegister RegisterDownEvent(Action<PointerEventData> onPointerEvent)
+		{
+			return mOnPointerDownEvent.Register(onPointerEvent);
+		}
+
+		public IUnRegister RegisterClickEvent(Action<PointerEventData> onPointerEvent)
+		{
+			return mOnPointerClickEvent.Register(onPointerEvent);
+		}
+
+		public IUnRegister RegisterUpEvent(Action<PointerEventData> onPointerEvent)
+		{
+			return mOnPointerUpEvent.Register(onPointerEvent);
+		}
+
+		public IUnRegister RegisterExitEvent(Action<PointerEventData> onPointerEvent)
+		{
+			return mOnPointerExitEvent.Register(onPointerEvent);
 		}
 	}
 
 	public static class PointerEventTriggerExtension
 	{
-		public static IUnRegister OnPointerEnterEvent<T>(this T self, Action<PointerEventData> onPointerClick) where T : Component
+		public static IUnRegister RegisterPointerEnter<T>(this T self, Action<PointerEventData> onPointerEvent) where T : Component
 		{
-			return self.GetOrAddComponent<PointerEventTrigger>().OnPointerClickEvent.Register(onPointerClick);
+			return self.GetOrAddComponent<PointerEventTrigger>().RegisterEnterEvent(onPointerEvent);
 		}
 
-		public static IUnRegister OnPointerDownEvent<T>(this T self, Action<PointerEventData> onPointerClick) where T : Component
+		public static IUnRegister RegisterPointerDown<T>(this T self, Action<PointerEventData> onPointerEvent) where T : Component
 		{
-			return self.GetOrAddComponent<PointerEventTrigger>().OnPointerDownEvent.Register(onPointerClick);
+			return self.GetOrAddComponent<PointerEventTrigger>().RegisterDownEvent(onPointerEvent);
 		}
 
-		public static IUnRegister OnPointerClickEvent<T>(this T self, Action<PointerEventData> onPointerClick) where T : Component
+		public static IUnRegister RegisterPointerClick<T>(this T self, Action<PointerEventData> onPointerEvent) where T : Component
 		{
-			return self.GetOrAddComponent<PointerEventTrigger>().OnPointerClickEvent.Register(onPointerClick);
+			return self.GetOrAddComponent<PointerEventTrigger>().RegisterClickEvent(onPointerEvent);
 		}
 
-		public static IUnRegister OnPointerUpEvent<T>(this T self, Action<PointerEventData> onPointerClick) where T : Component
+		public static IUnRegister RegisterPointerUp<T>(this T self, Action<PointerEventData> onPointerEvent) where T : Component
 		{
-			return self.GetOrAddComponent<PointerEventTrigger>().OnPointerUpEvent.Register(onPointerClick);
+			return self.GetOrAddComponent<PointerEventTrigger>().RegisterUpEvent(onPointerEvent);
 		}
 
-		public static IUnRegister OnPointerExitEvent<T>(this T self, Action<PointerEventData> onPointerClick) where T : Component
+		public static IUnRegister RegisterPointerExit<T>(this T self, Action<PointerEventData> onPointerEvent) where T : Component
 		{
-			return self.GetOrAddComponent<PointerEventTrigger>().OnPointerExitEvent.Register(onPointerClick);
+			return self.GetOrAddComponent<PointerEventTrigger>().RegisterExitEvent(onPointerEvent);
 		}
 	}
 }

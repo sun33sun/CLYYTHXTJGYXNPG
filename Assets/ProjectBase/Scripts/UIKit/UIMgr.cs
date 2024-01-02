@@ -12,12 +12,20 @@ namespace ProjectBase.UI
 {
 	public class UIMgr : Singleton<UIMgr>
 	{
-		public const float ShowTime = 0.5f;
-		public const float HideTime = 0.5f;
+		public const float animTime = 0.5f;
 
 		Dictionary<Type, UIController> instanceDic = new Dictionary<Type, UIController>();
 
+		Stack<UIController> uiStack = new Stack<UIController>();
+
+		//UIController Pop(Type type)
+		//{
+		//	instanceDic
+		//}
+
 		public ManagerState loadState { get; private set; }
+
+		private UIMgr() { }
 
 		#region 创建
 		/// <summary>
@@ -30,15 +38,19 @@ namespace ProjectBase.UI
 			Type type = typeof(T);
 			//存在则销毁
 			if (instanceDic.ContainsKey(type))
-				GameObject.Destroy(instanceDic[type]);
+			{
+				UIController uiController = instanceDic[type];
+				instanceDic.Remove(type);
+				GameObject.Destroy(uiController.gameObject);
+			}
 			//将上一个面板的交互关闭
-			if (instanceDic.Count > 0)
-				instanceDic.Last().Value.group.interactable = false;
+			if (uiStack.Count > 0)
+				uiStack.Peek().group.interactable = false;
 			//设置新加载的面板
-			T t = GameObject.Instantiate(ResMgr.Instance[type], UIRoot.Instance.CommomLayer) as T;
+			T t = ResMgr.Instance.Load<T>(type, UIRoot.Instance.PanelRoot);
 			t.canvas.overrideSorting = true;
 			t.canvas.sortingOrder = instanceDic.Count;
-			t.name = ResMgr.Instance[type].name;
+			t.name = type.Name;
 			instanceDic[type] = t;
 			return t;
 		}
@@ -46,57 +58,109 @@ namespace ProjectBase.UI
 		public T Open<T>() where T : UIController
 		{
 			T t = Load<T>();
+			uiStack.Push(t);
 			t.group.alpha = 1;
 			t.group.interactable = true;
 
 			return t;
 		}
 
-		public async UniTask<T> OpenAsync<T>() where T : UIController
+		public async UniTask<T> OpenAwait<T>() where T : UIController
 		{
 			T t = Load<T>();
-			await t.group.DOFade(1, ShowTime).AsyncWaitForCompletion();
+			uiStack.Push(t);
+			await t.group.DOFade(1, animTime).AsyncWaitForCompletion();
 			t.group.interactable = true;
+			return t;
+		}
+
+		public async UniTaskVoid OpenAsync<T>() where T : UIController
+		{
+			T t = Load<T>();
+			uiStack.Push(t);
+			await t.group.DOFade(1, animTime).AsyncWaitForCompletion();
+			t.group.interactable = true;
+		}
+
+		public T UnRecordOpen<T>(int sortingOrder) where T : UIController
+		{
+			T t = Load<T>();
+			t.group.alpha = 1;
+			t.group.interactable = true;
+
+			t.canvas.sortingOrder = sortingOrder;
+
 			return t;
 		}
 		#endregion
 
 		#region 关闭
-		KeyValuePair<Type, UIController> Pop()
+
+		public void CloseLast()
 		{
-			KeyValuePair<Type, UIController> pair = instanceDic.Last();
-			instanceDic.Remove(pair.Key);
-			return pair;
+			if (uiStack.Count < 1)
+				return;
+			UIController uiController = uiStack.Pop();
+			Type type = uiController.GetType();
+			instanceDic.Remove(type);
+			uiController.group.interactable = false;
+
+			GameObject.Destroy(uiController.gameObject);
 		}
 
-		public void Close()
+		public async UniTaskVoid CloseLastAsync()
 		{
-			if (instanceDic.Count < 1)
-				return;
-			GameObject.Destroy(Pop().Value);
-		}
-
-		public async UniTask CloseAsync()
-		{
-			if (instanceDic.Count < 1)
+			if (uiStack.Count < 1)
 				return;
 
-			UIController controller = Pop().Value;
+			UIController controller = uiStack.Pop();
 			controller.group.interactable = false;
 			//动画
-			await controller.group.DOFade(0, ShowTime).AsyncWaitForCompletion();
+			await controller.group.DOFade(0, animTime).AsyncWaitForCompletion();
 			//销毁
-			GameObject.Destroy(controller);
+			instanceDic.Remove(controller.GetType());
+			GameObject.Destroy(controller.gameObject);
+		}
+
+		public async UniTask CloseLastAwait()
+		{
+			if (uiStack.Count < 1)
+				return;
+
+			UIController controller = uiStack.Pop();
+			controller.group.interactable = false;
+			//动画
+			await controller.group.DOFade(0, animTime).AsyncWaitForCompletion();
+			//销毁
+			instanceDic.Remove(controller.GetType());
+			GameObject.Destroy(controller.gameObject);
 		}
 
 		public void CloseAll()
 		{
-			for (int i = 0; i < instanceDic.Count; i++)
+			while (uiStack.Count > 0)
 			{
-				GameObject go = Pop().Value.gameObject;
-				GameObject.Destroy(go);
+				CloseLast();
 			}
-			instanceDic.Clear();
+			uiStack.Clear();
+		}
+
+		public async UniTask CloseAllAwait()
+		{
+			foreach (var item in uiStack)
+				item.group.interactable = false;
+
+			while (uiStack.Count > 0)
+				await CloseLastAwait();
+		}
+
+		public async UniTaskVoid CloseAllAsync()
+		{
+			foreach (var item in uiStack)
+				item.group.interactable = false;
+
+			while (uiStack.Count > 0)
+				await CloseLastAwait();
 		}
 		#endregion
 
@@ -131,7 +195,7 @@ namespace ProjectBase.UI
 			if (t != null)
 			{
 				t.gameObject.SetActive(true);
-				await t.group.DOFade(1, ShowTime).AsyncWaitForCompletion();
+				await t.group.DOFade(1, animTime).AsyncWaitForCompletion();
 				t.group.interactable = true;
 			}
 		}
@@ -156,7 +220,7 @@ namespace ProjectBase.UI
 			if (t != null)
 			{
 				t.group.interactable = false;
-				await t.group.DOFade(0, HideTime).AsyncWaitForCompletion();
+				await t.group.DOFade(0, animTime).AsyncWaitForCompletion();
 				t.gameObject.SetActive(false);
 			}
 		}

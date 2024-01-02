@@ -43,12 +43,12 @@ namespace ProjectBase
         {
             //事件中心模块 分发按下抬起事件
             if (Input.GetKeyDown(key))
-                StringEventSystem.Instance.Trigger(key + "按下");
+                StringEventSystem.Instance.Send(key + "按下");
             if(Input.GetKey(key))
-                StringEventSystem.Instance.Trigger(key + "保持");
+                StringEventSystem.Instance.Send(key + "保持");
             //事件中心模块 分发按下抬起事件
             if (Input.GetKeyUp(key))
-                StringEventSystem.Instance.Trigger(key + "抬起");
+                StringEventSystem.Instance.Send(key + "抬起");
         }
 
 		private void MyUpdate()
@@ -59,18 +59,18 @@ namespace ProjectBase
 
             if (Input.GetMouseButtonDown(0))
 			{
-                StringEventSystem.Instance.Trigger("鼠标左键按下");
+                StringEventSystem.Instance.Send("鼠标左键按下");
             }
             if (Input.GetMouseButtonUp(0))
-                StringEventSystem.Instance.Trigger("鼠标左键抬起");
+                StringEventSystem.Instance.Send("鼠标左键抬起");
             if (Input.GetMouseButtonDown(1))
-                StringEventSystem.Instance.Trigger("鼠标右键按下");
+                StringEventSystem.Instance.Send("鼠标右键按下");
             if (Input.GetMouseButtonUp(1))
-                StringEventSystem.Instance.Trigger("鼠标右键抬起");
+                StringEventSystem.Instance.Send("鼠标右键抬起");
 
-            StringEventSystem.Instance.Trigger<Vector2>("鼠标滑动", new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+            StringEventSystem.Instance.Send<Vector2>("鼠标滑动", new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
 
-            StringEventSystem.Instance.Trigger<float>("鼠标滚轮", Input.GetAxis("Mouse ScrollWheel"));
+            StringEventSystem.Instance.Send<float>("鼠标滚轮", Input.GetAxis("Mouse ScrollWheel"));
         }
 
         private void MyFixedUpdate()
@@ -80,7 +80,7 @@ namespace ProjectBase
 
             CheckKeyCode(KeyCode.Space);
             CheckKeyCode(KeyCode.LeftControl);
-            StringEventSystem.Instance.Trigger("移动方向", new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+            StringEventSystem.Instance.Send("移动方向", new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
         }
 
         private void MyLateUpdate()

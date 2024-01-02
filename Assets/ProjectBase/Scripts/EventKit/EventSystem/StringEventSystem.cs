@@ -84,7 +84,7 @@ namespace ProjectBase
 		/// 事件触发
 		/// </summary>
 		/// <param name="key">哪一个名字的事件触发了</param>
-		public void Trigger<T>(string key, T info)
+		public void Send<T>(string key, T info)
 		{
 			//有没有对应的事件监听
 			//有的情况
@@ -98,7 +98,7 @@ namespace ProjectBase
 		/// 事件触发（不需要参数的）
 		/// </summary>
 		/// <param name="key"></param>
-		public void Trigger(string key)
+		public void Send(string key)
 		{
 			//有没有对应的事件监听
 			//有的情况

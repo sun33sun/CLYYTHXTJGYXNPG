@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace ProjectBase
 {
-	public class ProjectBaseSettings
+	public static class ProjectBaseSettings
 	{
+		public const float Frame5 = 0.0833333333333333f;
 	}
 }

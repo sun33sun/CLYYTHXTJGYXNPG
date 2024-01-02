@@ -18,11 +18,11 @@ namespace ProjectBase
 		/// <summary>
 		/// Î¯ÍÐ¶ÔÏó
 		/// </summary>
-		private Action mOnUnRegister { get; set; }
+		private Action mOnUnRegsiter { get; set; }
 
 		public SSUnRegister(Action onUnRegsiter)
 		{
-			mOnUnRegister = onUnRegsiter;
+			mOnUnRegsiter = onUnRegsiter;
 		}
 
 		/// <summary>
@@ -30,8 +30,8 @@ namespace ProjectBase
 		/// </summary>
 		public void UnRegister()
 		{
-			mOnUnRegister.Invoke();
-			mOnUnRegister = null;
+			mOnUnRegsiter.Invoke();
+			mOnUnRegsiter = null;
 		}
 	}
 
@@ -49,7 +49,7 @@ namespace ProjectBase
 		public IUnRegister Register(Action<T> onEvent)
 		{
 			mOnEvent += onEvent;
-			return new SSUnRegister(() => { UnRegister(onEvent); });
+			return new SSUnRegister(() => UnRegister(onEvent));
 		}
 
 		public void UnRegister(Action<T> onEvent)

@@ -10,6 +10,8 @@ namespace ProjectBase
 	{
 		private Dictionary<Enum, IEventInfo> eventDic = new Dictionary<Enum, IEventInfo>();
 
+		private EnumEventSystem() { }
+
 		/// <summary>
 		/// 添加事件监听
 		/// </summary>
@@ -80,7 +82,7 @@ namespace ProjectBase
 		/// 事件触发
 		/// </summary>
 		/// <param name="key">哪一个名字的事件触发了</param>
-		public void Trigger<T>(Enum key, T info)
+		public void Send<T>(Enum key, T info)
 		{
 			//有没有对应的事件监听
 			//有的情况
@@ -94,7 +96,7 @@ namespace ProjectBase
 		/// 事件触发（不需要参数的）
 		/// </summary>
 		/// <param name="key"></param>
-		public void Trigger(Enum key)
+		public void Send(Enum key)
 		{
 			//有没有对应的事件监听
 			//有的情况

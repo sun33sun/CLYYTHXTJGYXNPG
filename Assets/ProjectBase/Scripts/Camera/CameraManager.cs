@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace ProjectBase
 {
-    public class CameraManager : SingletonMono<CameraManager>
+    public class CameraManager : MonoSingleton<CameraManager>
     {
         List<IPersonView> personViews = new List<IPersonView>();
         PersonViewField pvField;
@@ -181,8 +181,9 @@ namespace ProjectBase
         }
         #endregion
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             //�����ƶ�
             StringEventSystem.Instance.UnRegister(KeyCode.LeftControl + "����", OnEState);
             // EventCenter.GetInstance.RemoveEventListener<float>("������", OnMouseScrollWheel);

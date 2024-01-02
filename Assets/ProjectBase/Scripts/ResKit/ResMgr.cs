@@ -13,30 +13,21 @@ namespace ProjectBase.Res
 	{
 		None, Loading, Loaded
 	}
-	public class ResMgr
+	public class ResMgr : Singleton<ResMgr>
 	{
-		#region 单例
-		private static ResMgr instance;
-
-		public static ResMgr Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = new ResMgr();
-					instance.LoadPrefabAsync();
-				}
-				return instance;
-			}
-		}
-		#endregion
 
 		Dictionary<Type, BaseController> prefabDic = new Dictionary<Type, BaseController>();
-		public BaseController this[Type key] { get { return prefabDic[key]; } }
+
 		public ManagerState loadState { get; private set; }
 
-		void LoadPrefabAsync()
+		private ResMgr() { }
+
+		public override void OnSingletonInit()
+		{
+			LoadPrefabSync();
+		}
+
+		void LoadPrefabSync()
 		{
 			if (loadState != ManagerState.None)
 				return;
@@ -50,11 +41,46 @@ namespace ProjectBase.Res
 				return;
 			foreach (var item in dic)
 			{
-				UIController controller = Resources.Load<UIController>(item.Value);
+				BaseController controller = Resources.Load<BaseController>(item.Value);
 				prefabDic.Add(controller.GetType(), controller);
 			}
 
 			loadState = ManagerState.Loaded;
+		}
+
+		public T Load<T>(Transform parent) where T : BaseController
+		{
+			Type type = typeof(T);
+
+			return Load<T>(type, parent);
+		}
+
+		public T Load<T>(Type type, Transform parent) where T : BaseController
+		{
+			BaseController prefab;
+			if (prefabDic.TryGetValue(type, out prefab))
+			{
+				return GameObject.Instantiate<T>(prefab as T, parent);
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// 需要反复生成时，使用该方法
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public T GetPrefab<T>() where T : BaseController
+		{
+			Type type = typeof(T);
+			BaseController prefab;
+			if (prefabDic.TryGetValue(type, out prefab))
+			{
+				return prefab as T;
+			}
+
+			return null;
 		}
 	}
 }

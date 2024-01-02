@@ -5,6 +5,6 @@
 	public partial class ProfilePanel
 	{
 	
-		public new ProfilePanelData mData => DataMgr.Get<ProfilePanelData>();
+		public ProfilePanelData mData => UIDataMgr.Get<ProfilePanelData>();
 	}
 }

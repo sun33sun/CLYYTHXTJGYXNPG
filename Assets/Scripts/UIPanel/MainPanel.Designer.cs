@@ -1,14 +1,15 @@
-﻿using UnityEngine;
-
-namespace ProjectBase.UI
+﻿namespace ProjectBase.UI
 {
+	using UnityEngine;
+
 	public partial class MainPanel
 	{
-		[HideInInspector] public UnityEngine.GameObject btnProfile = null;
-		[HideInInspector] public UnityEngine.GameObject btnTrain = null;
-		[HideInInspector] public UnityEngine.GameObject btnExamine = null;
-		[HideInInspector] public UnityEngine.GameObject btnReport = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnProfile = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnModel = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnExamine = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnTrain = null;
+		[HideInInspector, SerializeField] public UnityEngine.UI.Button btnReport = null;
 	
-		public new MainPanelData mData => DataMgr.Get<MainPanelData>();
+		public MainPanelData mData => UIDataMgr.Get<MainPanelData>();
 	}
 }
