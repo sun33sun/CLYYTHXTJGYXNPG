@@ -25,12 +25,6 @@ namespace ProjectBase.UI
 
 			base.Awake();
 		}
-
-		[Button("TODO:检查预制体是否存在一些问题")]
-		public void BuildCheck()
-		{
-			Debug.Log("TODO:检查预制体是否存在一些问题");
-		}
 	}
 }
 
