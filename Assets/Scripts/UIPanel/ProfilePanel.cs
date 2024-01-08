@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ProjectBase.UI
 {
-	public class ProfilePanelData : UIData
+	public class ProfilePanelData : IData
 	{
 
 	}

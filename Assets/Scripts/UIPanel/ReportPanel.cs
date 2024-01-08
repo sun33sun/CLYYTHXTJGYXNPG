@@ -13,7 +13,7 @@ namespace ProjectBase.UI
 		实验概述, 知识考核
 	}
 
-	public class ReportPanelData : UIData
+	public class ReportPanelData : IData
 	{
 		public Dictionary<ReportName, ReportData> enumDic = new Dictionary<ReportName, ReportData>();
 

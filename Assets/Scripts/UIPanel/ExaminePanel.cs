@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace ProjectBase.UI
 {
-	public class ExaminePanelData : UIData
+	public class ExaminePanelData : IData
 	{
 
 	}

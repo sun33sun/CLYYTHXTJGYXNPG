@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace ProjectBase.UI
 {
-	public class GamePanelData : UIData
+	public class GamePanelData : IData
 	{
 
 	}

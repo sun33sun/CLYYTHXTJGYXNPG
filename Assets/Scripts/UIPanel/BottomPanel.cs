@@ -2,10 +2,11 @@
 using System;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using ProjectBase.Game;
 
 namespace ProjectBase.UI
 {
-	public class BottomPanelData : UIData
+	public class BottomPanelData : IData
 	{
 
 	}
@@ -36,6 +37,7 @@ namespace ProjectBase.UI
 			bool isConfirm = await UIKit.Get<TopPanel>().AwaitDoubleConfirm(BackMainPanelTip, cts.Token);
 			if (isConfirm)
 			{
+				EnumEventSystem.Instance.Send(TrainState.EndTrain);
 				await UIKit.CloseAllAwait();
 				await UIKit.OpenAwait<MainPanel>();
 			}

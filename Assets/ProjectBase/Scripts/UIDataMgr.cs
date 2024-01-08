@@ -6,12 +6,12 @@ using System;
 
 namespace ProjectBase
 {
-	public interface UIData
+	public interface IData
 	{
 	}
 	public partial class UIDataMgr : Singleton<UIDataMgr>
 	{
-		Dictionary<Type, UIData> dataDic = new Dictionary<Type, UIData>();
+		Dictionary<Type, IData> dataDic = new Dictionary<Type, IData>();
 
 		private UIDataMgr() { }
 		public override void OnSingletonInit()
@@ -19,7 +19,7 @@ namespace ProjectBase
 			Init();
 		}
 
-		public static T Get<T>() where T : UIData
+		public static T Get<T>() where T : IData
 		{
 			Type type = typeof(T);
 			return (T)Instance.dataDic[type];

@@ -32,7 +32,7 @@ namespace ProjectBase.CodeGenKit
 	/// </summary>
 	public static class CodeGenGlobalSetting
 	{
-		public static string DataMgrPath = $"{Application.dataPath}/ProjectBase/Scripts/CodeGenKit/Data/DataMgr{FileSuffix.designerSuffix}";
+		public static string DataMgrPath = $"{Application.dataPath}/ProjectBase/Scripts/CodeGenKit/Data/UIDataMgr{FileSuffix.designerSuffix}";
 		public static string DataMgrTemplate =
 @"using ProjectBase.UI;
 using ProjectBase.Game;

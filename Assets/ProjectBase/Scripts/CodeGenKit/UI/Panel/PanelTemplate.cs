@@ -27,7 +27,7 @@ namespace #NAMESPACE#
 	public partial class #CLASSNAME#
 	{
 	#MEMBER#
-		public #CLASSNAME#Data mData => DataMgr.Get<#CLASSNAME#Data>();
+		public #CLASSNAME#Data mData => UIDataMgr.Get<#CLASSNAME#Data>();
 	}
 }
 ";

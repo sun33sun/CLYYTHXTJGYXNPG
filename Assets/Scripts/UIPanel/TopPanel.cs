@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace ProjectBase.UI
 {
-	public class TopPanelData : UIData
+	public class TopPanelData : IData
 	{
 
 	}

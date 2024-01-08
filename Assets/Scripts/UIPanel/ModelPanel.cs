@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 
 namespace ProjectBase.UI
 {
-	public class ModelPanelData : UIData
+	public class ModelPanelData : IData
 	{
 
 	}

@@ -4,7 +4,6 @@
 
 	public partial class GamePanel
 	{
-		[HideInInspector, SerializeField] public ProjectBase.UI.TimelineSelection TimelineSelection = null;
 		[HideInInspector, SerializeField] public ProjectBase.UI.ObjTip ObjTip = null;
 		[HideInInspector, SerializeField] public ProjectBase.UI.ObjExamine ObjExamine = null;
 	

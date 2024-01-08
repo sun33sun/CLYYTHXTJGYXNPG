@@ -74,7 +74,7 @@ namespace ProjectBase.CodeGenKit
 
 			//∂¡»°Json
 			Dictionary<string, string> prefabDic = CodeGenHelper.PrefabDic;
-			//–¥»ÎDataMgr
+			//–¥»ÎUIDataMgr
 			WriteDataMgrDesigner(prefabDic.Keys.Where(key => key.Contains("Panel")).ToList());
 		}
 

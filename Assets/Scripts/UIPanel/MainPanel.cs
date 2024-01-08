@@ -7,14 +7,12 @@ using ProjectBase.Game;
 
 namespace ProjectBase.UI
 {
-	public class MainPanelData : UIData
+	public class MainPanelData : IData
 	{
 
 	}
 	public partial class MainPanel : UIController
 	{
-		const string TrainSceneName = "Train";
-
 		private void Awake()
 		{
 			btnProfile.onClick.AddListener(() => UniTask.Void(Profile));
@@ -49,7 +47,7 @@ namespace ProjectBase.UI
 		async UniTaskVoid Train()
 		{
 			await UIKit.CloseAllAwait();
-			await UIKit.OpenAwait<GamePanel>();
+			await UIKit.OpenAwait<SelectGamePanel>();
 		}
 
 		async UniTaskVoid Report()
