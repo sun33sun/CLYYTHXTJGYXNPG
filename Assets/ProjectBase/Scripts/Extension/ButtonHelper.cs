@@ -10,7 +10,7 @@ using ProjectBase.UI;
 
 namespace ProjectBase
 {
-	public static class UIHelper
+	public static class ButtonHelper
 	{
 		public static float HideTime = 0.5f;
 		public static float ShowTime = 0.5f;

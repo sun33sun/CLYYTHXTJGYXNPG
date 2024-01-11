@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks.Linq;
 using Cysharp.Threading.Tasks.Triggers;
 using HighlightPlus;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProjectBase
 {
@@ -51,19 +52,5 @@ namespace ProjectBase
             await UniTask.WaitUntil(() => count == 0, cancellationToken: cancellationToken);
         }
         #endregion
-
-        #region Component扩展
-        public static T GetOrAddComponent<T>(this Component self) where T : Component
-        {
-            var comp = self.gameObject.GetComponent<T>();
-            return comp ? comp : self.gameObject.AddComponent<T>();
-        }
-
-		public static T GetOrAddComponent<T>(this GameObject self) where T : Component
-		{
-			var comp = self.GetComponent<T>();
-			return comp ? comp : self.AddComponent<T>();
-		}
-		#endregion
 	}
 }

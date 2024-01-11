@@ -3,6 +3,8 @@ using System;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using ProjectBase.Game;
+using DG.Tweening;
+using ProjectBase.Extension.AnimExtension;
 
 namespace ProjectBase.UI
 {
@@ -38,6 +40,7 @@ namespace ProjectBase.UI
 			if (isConfirm)
 			{
 				EnumEventSystem.Instance.Send(TrainState.EndTrain);
+				ShowBackground = true;
 				await UIKit.CloseAllAwait();
 				await UIKit.OpenAwait<MainPanel>();
 			}

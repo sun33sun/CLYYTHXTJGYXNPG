@@ -1,4 +1,5 @@
-﻿using ProjectBase.UI;
+﻿using Cysharp.Threading.Tasks;
+using ProjectBase.UI;
 using UnityEngine;
 
 namespace ProjectBase
@@ -15,5 +16,6 @@ namespace ProjectBase
 			UIKit.Open<MainPanel>();
 		}
 	}
+
 }
 

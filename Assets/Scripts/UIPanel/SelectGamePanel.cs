@@ -24,8 +24,13 @@ namespace ProjectBase.UI
 				btns[i].onClick.AddListener(() =>
 				{
 					Debug.Log($"{nameof(SelectGamePanel)} Select {index}");
-					UniTask.Void(async () => await SceneManager.LoadSceneAsync(TrainScene));
 					UIKit.CloseLast();
+					UniTask.Void(async () =>
+					{
+						await UIKit.OpenAwait<GamePanel>();
+						await SceneManager.LoadSceneAsync(TrainScene);
+						UIKit.Get<BottomPanel>().ShowBackground = false;
+					});
 				});
 			}
 		}
